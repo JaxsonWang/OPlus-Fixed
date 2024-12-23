@@ -19,6 +19,36 @@
 #PARTITIONS=""
 
 ##########################################################################################
+# Installation Message
+##########################################################################################
+
+##########################################################################################
+# Replace list
+##########################################################################################
+
+# List all directories you want to directly replace in the system
+# Check the documentations for more info about how Magic Mount works, and why you need this
+
+# This is an example
+REPLACE_EXAMPLE="
+/system/app/Youtube
+/system/priv-app/SystemUI
+/system/priv-app/Settings
+/system/framework
+"
+
+# Construct your own list here, it will override the example above
+# !DO NOT! remove this if you don't need to replace anything, leave it empty as it is now
+REPLACE="
+/system/product/app/Browser
+/system/product/app/OplusSecurityKeyboard
+"
+#添加您要精简的APP/文件夹目录
+#例如：精简状态栏，找到状态栏目录为  /system/priv-app/SystemUI/SystemUI.apk     
+#转化加入:/system/priv-app/SystemUI
+#（可以搭配高级设置获取APP目录）
+
+##########################################################################################
 # Permissions
 ##########################################################################################
 
