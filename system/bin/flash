@@ -1,0 +1,14 @@
+#!/system/bin/sh
+flash_image() {
+  blockdev --setrw "/dev/block/by-name/vbmeta_a"
+  blockdev --setrw "/dev/block/by-name/vbmeta_b"
+  if [ "${2: -2}" != "$(getprop ro.boot.slot_suffix)" ]
+  then
+  avbctl disable-verity --force "${2: -1}"
+  avbctl disable-verification --force "${2: -1}"
+  fi
+  blockdev --setrw "/dev/block/by-name/$2"
+  cat "$1" /dev/zero > "/dev/block/by-name/$2" 2>/dev/null
+}
+
+flash_image "$1" "$2"
