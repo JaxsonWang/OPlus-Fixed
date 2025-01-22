@@ -137,3 +137,8 @@ GetPathFolderCount() {
 
 avbctl disable-verity --force
 avbctl disable-verification --force
+
+# 如有需要取消注释此代码 OP13
+# resetprop -n ro.boot.vbmeta.digest f514511fe0f7e8f2d1b6c5f5e2e9aa062c14314182510b48129eecb3afaa0dbf
+# 如有需要取消注释此代码 OP11
+# resetprop -n ro.boot.vbmeta.digest 0766a5134c7585f3d27bb743cd51e5fd8fffa78ee48064284695c945650cba98
