@@ -110,7 +110,10 @@ rm -rf /data/local/tmp/shizuku/
 rm -rf /data/local/tmp/shizuku_starter
 rm -f /data/local/tmp/shizuku/
 rm -f /data/local/tmp/shizuku_starter
+rm -f /data/swap_config.conf
+
 resetprop -n init.svc.adbd stopped
+
 while true; do
   CurrentFocus=$(dumpsys window | grep -E "mCurrentFocus")
   if echo "$CurrentFocus" | grep -q -E "launcher|lawnchair"; then
