@@ -103,18 +103,15 @@ ui_print "*** 音量上键 (+) = 是 ***"
 ui_print "*** 音量上键 (-) = 否 ***"
 
 ui_print ""
-ui_print "*** 是否安装 Android Auto 模块 ***"
+ui_print "*** 是否安装 Android Auto 伪装模块 ***"
 ui_print ""
 if chooseport 20 "NO"; then # 0 = True, why shell why..
-    ui_print "Android Auto 模块已添加安装！"
+    ui_print "Android Auto 伪装模块已添加安装！"
 else
     rm -r "$MODPATH/system/product/app/GoogleTTS";
     rm -r "$MODPATH/system/product/app/Maps";
-    rm -r "$MODPATH/system/product/etc/permissions/com.google.android.projection.gearhead.xml";
-    rm -r "$MODPATH/system/product/overlay/AndroidAutoOverlay";
-    rm -r "$MODPATH/system/product/priv-app/AndroidAutoStubPrebuilt";
     rm -r "$MODPATH/system/product/priv-app/Velvet";
-    ui_print "Android Auto 模块已忽略"！
+    ui_print "Android Auto 伪装模块已忽略"！
 fi
 
 ui_print ""
