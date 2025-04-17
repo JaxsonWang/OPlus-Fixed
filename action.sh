@@ -11,24 +11,7 @@ DetectVirtualMachine() {
 if [ ${IS_Virtual} == "1" ]; then
   echo "警告: 当前可能为虚拟机环境! 可能导致问题! 请注意!"
 fi
-if [ -d /data/adb/modules/tricky_store ]; then
-  mkdir -p /data/adb/tricky_store
-  rm -f /data/adb/tricky_store/target.txt
-  folder_path="/data/user/0/"
-  find "$folder_path" -type d -maxdepth 1 -print0 | while IFS= read -r -d $'\0' directory; do
-  folder_name=$(basename "$directory")
-  if [[ ! " 0 " == " $folder_name " ]]; then
-    echo "$folder_name" >> /data/adb/tricky_store/target.txt
-  fi
-  done
-else
-  echo "未安装TrickyStore模块! 无法进行TrickyStore模块列表更新!"
-  echo "运行结束"
-  echo "(两秒后自动退出)"
-  sleep 2
-  exit
-fi
-echo "成功进行TrickyStore手动模块列表更新!"
+
 SDK_Resolve() {
   echo "检测到非SDK限制失效问题! 开始自动解决"
   settings delete global hidden_api_policy

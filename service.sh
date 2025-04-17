@@ -2,7 +2,7 @@
 PATH=/data/adb/ap/bin:/data/adb/ksu/bin:/data/adb/magisk:$PATH
 MODDIR="${0%/*}"
 
-# echo "$MODDIR" > $MODDIR/log.txt
+# echo $MODDIR > $MODDIR/log.txt
 
 resetprop ro.boot.flash.locked 1
 resetprop ro.boot.verifiedbootstate green
@@ -92,17 +92,6 @@ while true; do
   [[ -d /data/user/0/android ]] && break || sleep 5
 done
 resetprop -n init.svc.adbd stopped
-if [ -d /data/adb/modules/tricky_store ]; then
-  mkdir -p /data/adb/tricky_store
-  rm -f /data/adb/tricky_store/target.txt
-  folder_path="/data/user/0/"
-  find "$folder_path" -type d -maxdepth 1 -print0 | while IFS= read -r -d $'\0' directory; do
-    folder_name=$(basename "$directory")
-    if [[ ! " 0 " == " $folder_name " ]]; then
-      echo "$folder_name" >>/data/adb/tricky_store/target.txt
-    fi
-  done
-fi
 if [ -d /data/adb/modules/zn_magisk_compat/ ]; then
   rm -rf /data/adb/modules/zn_magisk_compat/
 fi

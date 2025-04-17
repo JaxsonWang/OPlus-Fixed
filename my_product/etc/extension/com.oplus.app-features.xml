@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<extend_features>
+	<app_feature name="oplus.power.onwirelesscharger.support"/>
+	<app_feature name="os.charge.settings.wirelesscharge.support"/>
+	<app_feature name="oplus.power.wirelesschgwhenwired.support"/>
+	<app_feature name="com.oplus.systemui.not_show_guide_dialog"/>
+	<app_feature name="os.charge.settings.wirelesschargingcoil.position" args="float:0.4377"/>
+	<app_feature name="os.charge.settings.wirelesscharging.power" args="int:50"/>
+	<app_feature name="com.android.launcher.support_swipe_up_to_split" args="boolean:true"/>
+	<app_feature name="oplus_disallow_run_apps">
+		<StringList args="com.cmcc.dcservice"/>
+		<StringList args="com.newcall"/>
+	</app_feature>
+	<app_feature name="com.oplus.mediaturbo.service"/>
+	<app_feature name="os.graphic.gallery.os15_secrecy" args="boolean:true"/>
+	<app_feature name="speechassist.cui.device.info" args="String:{&quot;powerButtonInfo&quot;:{&quot;startPos&quot;:266,&quot;middlePos&quot;:289,&quot;endPos&quot;:312,&quot;middlePosRatio&quot;:0.362,&quot;side&quot;:&quot;right&quot;}}"/>
+	<app_feature name="com.android.settings.network_access_permission"/>
+	<app_feature name="oplus.appfeature.networkless_audiovolume_config" args="int:0"/>
+	<app_feature name="com.coloros.colordirectservice.cm_enable" args="boolean:true"/>
+	<app_feature name="com.oplus.phonemanager.ai_voice_detect" args="int:1"/>
+	
+	<!-- 点击屏幕唤醒息屏 -->
+	<app_feature name="oplus.aod.wakebyclick.support" args="boolean:true"/>
+	<!-- 直播助手 -->
+	<app_feature name="com.oplus.mediaturbo.game_live" args="boolean:true"/>
+	<!-- 实况照片支持设置锁屏图片 -->
+	<app_feature name="com.oplus.wallpapers.livephoto_wallpaper" args="boolean:true"/>
+	<!-- 区域录屏 -->
+	<app_feature name="com.oplus.screenrecorder.area_record" args="boolean:true"/>
+	<!-- 电池详情隐藏屏幕情况 -->
+	<!--<app_feature name="com.oplus.battery.phoneusage.screenon.hide" args="boolean:true"/>-->
+
+</extend_features>
+<!-- Timestamp 2025-02-12T19:43:40 #547903 -->
