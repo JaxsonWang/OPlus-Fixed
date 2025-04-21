@@ -130,6 +130,9 @@ GetPathFolderCount() {
 avbctl disable-verity --force
 avbctl disable-verification --force
 
+# 清除阻止 GMS 持续持有 WakeLock
+settings put secure google_restric_info 0
+
 # 如有需要取消注释此代码 OP13
 # resetprop -n ro.boot.vbmeta.digest f514511fe0f7e8f2d1b6c5f5e2e9aa062c14314182510b48129eecb3afaa0dbf
 # 如有需要取消注释此代码 OP11

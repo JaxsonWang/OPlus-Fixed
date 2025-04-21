@@ -99,5 +99,8 @@ rm -f /data/swap_config.conf
 avbctl disable-verity --force > /dev/null && echo "已关闭DM校检" || abort "关闭DM校检失败！"
 avbctl disable-verification --force > /dev/null && echo "已关闭启动校检" || abort "关闭启动校检失败！"
 
+# 清除阻止 GMS 持续持有 WakeLock
+settings put secure google_restric_info 0
+
 echo "运行结束"
 exit
