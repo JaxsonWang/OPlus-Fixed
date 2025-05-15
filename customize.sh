@@ -73,15 +73,6 @@ else
     ui_print "Unlock CN GMS 模块已忽略"！
 fi
 
-ui_print ""
-if [ -d /data/adb/modules/tricky_store ]; then
-  ui_print "- keybox 安装成功！"
-  mkdir -p /data/adb/tricky_store
-  mv $MODPATH/keybox.xml /data/adb/tricky_store
-else
-  ui_print "- TrickyStore 模块没有安装！"
-fi
-
 # 暂时删除无用代码
 rm -r $MODPATH/my_product
 

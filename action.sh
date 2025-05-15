@@ -103,4 +103,5 @@ avbctl disable-verification --force > /dev/null && echo "已关闭启动校检" 
 # settings put secure google_restric_info 0
 
 echo "运行结束"
+sleep 1
 exit
