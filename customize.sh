@@ -9,7 +9,6 @@ ui_print "Software Version: $(getprop ro.build.display.id.show)"
 # Remove applications
 REPLACE="
 /system/product/app/Browser
-/system/product/app/OplusSecurityKeyboard
 "
 
 chooseport() {
