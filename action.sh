@@ -66,7 +66,9 @@ contains_reset_prop() {
 }
 
 contains_reset_prop "ro.build.tags" "test-keys" "release-keys" 
-contains_reset_prop "ro.build.type" "userdebug" "user" 
+contains_reset_prop "ro.build.type" "userdebug" "user"
+
+rm -rf /metadata/magisk
 
 if [ $(getprop init.svc.adbd) != "stopped" ]; then
     echo "检测到USB调试开启痕迹!"
@@ -85,16 +87,42 @@ if [ -d /storage/emulated/0/TWRP ]; then
   rm -rf /storage/emulated/0/TWRP
 fi
 
+if [ -d /storage/emulated/0/Android/data/com.tsng.hidemyapplist/ ]; then
+  echo "成功删除 隐藏应用列表 应用目录痕迹"
+  rm -rf /storage/emulated/0/Android/data/com.tsng.hidemyapplist/
+fi
+if [ -d /storage/emulated/0/Android/data/com.google.android.hmal/ ]; then
+  echo "成功删除 隐藏应用列表_改包名版 应用目录痕迹"
+  rm -rf /storage/emulated/0/Android/data/com.google.android.hmal/
+fi
 if [ -d /data/adb/modules/zn_magisk_compat/ ]; then
 echo "成功删除无用ZygiskNext临时文件"
   rm -rf /data/adb/modules/zn_magisk_compat/
 fi
 
+if [ -f /data/user/0/cn.gov.pbc.dcep/envc.push ]; then
+  echo "检测到数字人民币! 开始解决数字人民币Root检测"
+  #防之前刷过模块先预先取消掉属性
+  chattr -i /data/user/0/cn.gov.pbc.dcep/envc.push
+  #强制设置文件内容为安全
+  echo "r=0" > /data/user/0/cn.gov.pbc.dce/envc.push
+  #将文件设置为不能被软件轻易更改
+  chattr +i /data/user/0/cn.gov.pbc.dce/envc.push
+  echo "成功解决数字人民币Root检测!"
+fi
+path=$(pm list packages -f | grep icu.nullptr.nativetest | sed 's/package://' | awk -F'base' '{print $1}')
+if [[ -n "$path" && -d "$path" ]]; then
+   find $path -type f -name "*.*dex" -exec rm -f {} \;
+fi
+echo "牛头30检测残留解决成功"
+logcat -c
+logcat --clear
+dmesg -c
+echo "系统日志清理完成"
 rm -rf /data/local/tmp/shizuku/
 rm -rf /data/local/tmp/shizuku_starter
 rm -f /data/local/tmp/shizuku/
 rm -f /data/local/tmp/shizuku_starter
-rm -f /data/swap_config.conf
 
 avbctl disable-verity --force > /dev/null && echo "已关闭DM校检" || abort "关闭DM校检失败！"
 avbctl disable-verification --force > /dev/null && echo "已关闭启动校检" || abort "关闭启动校检失败！"
@@ -102,6 +130,8 @@ avbctl disable-verification --force > /dev/null && echo "已关闭启动校检" 
 # 清除阻止 GMS 持续持有 WakeLock
 # settings put secure google_restric_info 0
 
-echo "运行结束"
+echo "执行结束"
+echo "(一秒后自动退出)"
 sleep 1
+echo "运行结束"
 exit

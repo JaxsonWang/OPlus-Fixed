@@ -6,6 +6,14 @@ ui_print "Android Version: $(getprop ro.build.version.release)"
 ui_print "API Version: $(getprop ro.product.cpu.abi)"
 ui_print "Software Version: $(getprop ro.build.display.id.show)"
 
+if [ "$KSU" ]; then
+  ui_print "Root Type: KSU/AP"
+else
+  ui_print "Root Type: Magisk"
+fi
+ui_print "Root Version: $MAGISK_VER_CODE"
+ui_print "MODPATH: $MODPATH"
+
 # Remove applications
 REPLACE="
 /system/product/app/Browser
@@ -81,3 +89,4 @@ set_perm_recursive $MODPATH  0  0  0755  0644
 set_perm_recursive $MODPATH/system/bin  0  2000  0755 0755 u:object_r:same_process_hal_file:s0
 
 ui_print ""
+ui_print "模块安装完成! 重启生效"
