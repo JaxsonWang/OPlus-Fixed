@@ -8,14 +8,12 @@
 	<oplus-feature name="oplus.software.radio.sido_inter_cell_coop_lte_rej_15_opt"/>
 	<oplus-feature name="oplus.software.radio.sido_gw_lte_pingpong_lte_poor_signal_opt"/>
 	<oplus-feature name="oplus.software.radio.sido_nr_icon_pingpong_opt"/>
-	<oplus-feature name="oplus.software.radio.qos_prediction_enabled"/>
 	<oplus-feature name="oplus.software.radio.enable_signal_map"/>
 	<oplus-feature name="oplus.software.radio.sido_lte_srv_poor_signal_ngbr_strong_opt"/>
 	<oplus-feature name="oplus.software.radio.sido_screen_on_no_service_opt"/>
 	<oplus-feature name="oplus.software.radio.sido_dual_sim_coop_no_service_opt"/>
 	<oplus-feature name="oplus.software.radio.sido_screen_on_no_45g_opt"/>
 	<oplus-feature name="oplus.software.radio.sido_dual_sim_coop_no4g_no5g_opt"/>
-	<oplus-feature name="oplus.software.radio.cybersense_location_enabled"/>
 	<oplus-feature name="oplus.software.radio.game_ims_reg"/>
 	<oplus-feature name="oplus.software.radio.enable_weak_signal_backoff"/>
 	<oplus-feature name="oplus.software.radio.signal_recovery_enabled"/>
@@ -63,12 +61,10 @@
 	<oplus-feature name="oplus.software.radio.data_eval4"/>
 	<oplus-feature name="oplus.software.radio.smart_data_eval"/>
 	<oplus-feature name="oplus.software.radio.stuck_analyse"/>
-	<oplus-feature name="oplus.software.radio.set_sa_silence"/>
 	<oplus-feature name="oplus.software.radio.smart_commu"/>
 	<oplus-feature name="oplus.software.radio.pull_wifi_cell"/>
 	<oplus-feature name="oplus.software.radio.subway_slow_recovery"/>
 	<oplus-feature name="oplus.software.radio.virtualmodem_support"/>
-	<oplus-feature name="oplus.software.radio.smart5g_game_latency_check"/>
 	<oplus-feature name="oplus.software.radio.ignore_stk_display_text"/>
 	<oplus-feature name="oplus.software.radio.air_interface_detect_support"/>
 	<oplus-feature name="oplus.software.radio.sido_airplane_mode_low_power_opt_v2"/>
@@ -156,13 +152,16 @@
 	<oplus-feature name="oplus.software.radio.enable_ct_network_scan"/>
 	<oplus-feature name="oplus.hardware.pwd_attestation_locksettings"/>
 	<oplus-feature name="oplus.software.radio.subsystem_camera_service"/>
-	<unavailable-oplus-feature name="oplus.software.app_resolution_auto"/>
 	<oplus-feature name="oplus.software.radio.smart_game_qoe_recovery"/>
+	<oplus-feature name="oplus.software.radio.engnw_vsim_support"/>
 	<oplus-feature name="oplus.software.radio.virtualmodem_cellinfo"/>
+	<unavailable-oplus-feature name="oplus.software.gsa_refresh"/>
+	<oplus-feature name="oplus.software.radio.car_sharing_network"/>
+	<oplus-feature name="oplus.software.radio.network_vip_task"/>
 	<oplus-feature name="oplus.software.radio.enable_cmcc_nitz"/>
 	<oplus-feature name="oplus.software.wlan.qoe_estimate"/>
-
-	<!-- 护眼提醒 -->
-	<oplus-feature name="oplus.software.display.ai_eyeprotect_v1_support"/>
+	<unavailable-oplus-feature name="oplus.software.touch_preload"/>
+	<oplus-feature name="oplus.software.directservice.finger_flashnotes_enable"/>
+	<oplus-feature name="oplus.software.systemui.navbar_pick_color"/>
 </oplus-config>
-<!-- Timestamp 2025-03-13T11:52:20 #589437 -->
+<!-- Timestamp 2025-05-15T18:13:33 #b83f6d39-c41f-40bd-b7f4-d97dce7acf0d -->

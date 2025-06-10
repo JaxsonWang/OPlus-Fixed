@@ -75,14 +75,10 @@ ui_print ""
 if chooseport 20 "NO"; then # 0 = True, why shell why..
     ui_print "Unlock CN GMS 模块已添加安装！"
 else
-    rm -r $MODPATH/my_bigball
-    sed -i '/\/my_bigball\/etc\/permissions\/oplus_google_cn_gms_features.xml/d' $MODPATH/post-fs-data.sh
-    sed -i '/\/my_bigball\/etc\/permissions\/oplus.feature.control_cn_gms.xml/d' $MODPATH/post-fs-data.sh
+    sed -i '/\/my_product\/etc\/permissions\/oplus_google_cn_gms_features.xml/d' $MODPATH/post-fs-data.sh
+    sed -i '/\/my_product\/etc\/permissions\/oplus.feature.control_cn_gms.xml/d' $MODPATH/post-fs-data.sh
     ui_print "Unlock CN GMS 模块已忽略"！
 fi
-
-# 暂时删除无用代码
-rm -r $MODPATH/my_product
 
 chcon -r u:object_r:system_file:s0 $MODPATH/system
 set_perm_recursive $MODPATH  0  0  0755  0644
