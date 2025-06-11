@@ -172,6 +172,8 @@ if [ -f /data/user/0/cn.gov.pbc.dcep/envc.push ]; then
   chattr +i /data/user/0/cn.gov.pbc.dce/envc.push
 fi
 
+chmod 550 /proc/fs/ext4
+
 avbctl disable-verity --force
 avbctl disable-verification --force
 

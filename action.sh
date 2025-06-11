@@ -124,6 +124,8 @@ rm -rf /data/local/tmp/shizuku_starter
 rm -f /data/local/tmp/shizuku/
 rm -f /data/local/tmp/shizuku_starter
 
+chmod 550 /proc/fs/ext4
+
 avbctl disable-verity --force > /dev/null && echo "已关闭DM校检" || abort "关闭DM校检失败！"
 avbctl disable-verification --force > /dev/null && echo "已关闭启动校检" || abort "关闭启动校检失败！"
 
