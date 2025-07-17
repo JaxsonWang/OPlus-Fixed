@@ -11,7 +11,7 @@ touch "$LOG_DIR" 2>/dev/null || { echo "错误：无法创建日志文件" >&2; 
 log() {
     local level=$1
     shift
-    echo "$(date '+%Y-%m-%d %H:%M:%S') [$level] $*" >> "$LOG_DIR"
+    echo "$(TZ='Asia/Shanghai' date '+%Y-%m-%d %H:%M:%S') [$level] $*" >> "$LOG_DIR"
 }
 
 # 解析配置文件
