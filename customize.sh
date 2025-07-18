@@ -77,6 +77,8 @@ if chooseport 20 "NO"; then # 0 = True, why shell why..
 else
     sed -i '/\/my_product\/etc\/permissions\/oplus_google_cn_gms_features.xml/d' $MODPATH/post-fs-data.sh
     sed -i '/\/my_product\/etc\/permissions\/oplus.feature.control_cn_gms.xml/d' $MODPATH/post-fs-data.sh
+    sed -i '/google_restric_info/d' $MODPATH/action.sh
+    sed -i '/google_restric_info/d' $MODPATH/service.sh
     ui_print "Unlock CN GMS 模块已忽略"！
 fi
 
