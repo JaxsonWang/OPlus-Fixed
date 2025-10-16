@@ -8,6 +8,8 @@ if [ -f $LOG_DIR ]; then
     rm -rf $LOG_DIR
 fi
 
+chmod 755 "$MODDIR/fix_soter_key.sh"
+
 # Check if the script is running as root
 chmod 777 $MODDIR/bash
 $MODDIR/bash $MODDIR/main.sh

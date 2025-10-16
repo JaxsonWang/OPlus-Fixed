@@ -82,9 +82,5 @@ else
     ui_print "Unlock CN GMS 模块已忽略"！
 fi
 
-chcon -r u:object_r:system_file:s0 $MODPATH/system
-set_perm_recursive $MODPATH  0  0  0755  0644
-set_perm_recursive $MODPATH/system/bin  0  2000  0755 0755 u:object_r:same_process_hal_file:s0
-
 ui_print ""
 ui_print "模块安装完成! 重启生效"
