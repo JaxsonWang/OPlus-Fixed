@@ -1,4 +1,5 @@
-#!/bin/sh
+#!/system/bin/sh
+
 PATH=/data/adb/ap/bin:/data/adb/ksu/bin:/data/adb/magisk:$PATH
 
 ui_print "Moduel Version: $(grep versionCode $MODPATH/module.prop | sed 's/versionCode=//g')"
@@ -60,26 +61,66 @@ ui_print "*** 音量上键 (-) = 否 ***"
 ui_print ""
 ui_print "*** 是否安装 Android Auto 伪装模块 ***"
 ui_print ""
-if chooseport 20 "NO"; then # 0 = True, why shell why..
+if chooseport 20 "NO"; then
     ui_print "Android Auto 伪装模块已添加安装！"
 else
     rm -r $MODPATH/system/product/app/GoogleTTS
     rm -r $MODPATH/system/product/app/Maps
     rm -r $MODPATH/system/product/priv-app/Velvet
-    ui_print "Android Auto 伪装模块已忽略"！
+    ui_print "Android Auto 伪装模块已忽略！"
 fi
 
 ui_print ""
 ui_print "*** 是否安装 Unlock CN GMS 模块 ***"
 ui_print ""
-if chooseport 20 "NO"; then # 0 = True, why shell why..
+if chooseport 20 "NO"; then
+    origin=/my_product/etc/permissions/oplus_google_cn_gms_features.xml
+    target="$MODPATH/my_product/etc/permissions/oplus_google_cn_gms_features.xml"
+
+    {
+        echo ""
+        echo "# Unlock CN GMS mount"
+        echo "mount -o ro,bind \$MODDIR/my_product/etc/permissions/oplus_google_cn_gms_features.xml /my_product/etc/permissions/oplus_google_cn_gms_features.xml"
+    } >> "$MODPATH/post-fs-data.sh"
+
+    # 拷贝并修改 XML 文件
+    mkdir -p "$(dirname "$target")"
+    cp -f "$origin" "$target"
+    sed -i '/cn.google.services/d' "$target"
+    sed -i '/services_updater/d' "$target"
+
+    ui_print "modify $origin"
     ui_print "Unlock CN GMS 模块已添加安装！"
 else
-    sed -i '/\/my_product\/etc\/permissions\/oplus_google_cn_gms_features.xml/d' $MODPATH/post-fs-data.sh
-    sed -i '/\/my_product\/etc\/permissions\/oplus.feature.control_cn_gms.xml/d' $MODPATH/post-fs-data.sh
-    sed -i '/google_restric_info/d' $MODPATH/action.sh
-    sed -i '/google_restric_info/d' $MODPATH/service.sh
-    ui_print "Unlock CN GMS 模块已忽略"！
+    # sed -i '/\/my_product\/etc\/permissions\/oplus_google_cn_gms_features.xml/d' $MODPATH/post-fs-data.sh
+    # sed -i '/\/my_product\/etc\/permissions\/oplus.feature.control_cn_gms.xml/d' $MODPATH/post-fs-data.sh
+    # sed -i '/google_restric_info/d' $MODPATH/action.sh
+    # sed -i '/google_restric_info/d' $MODPATH/service.sh
+    ui_print "Unlock CN GMS 模块已忽略！"
+fi
+
+ui_print ""
+ui_print "*** 是否开启 iPhone 互联特征 ***"
+ui_print ""
+if chooseport 20 "NO"; then
+    origin=/my_product/etc/extension/com.oplus.oplus-feature.xml
+    target="$MODPATH/my_product/etc/extension/com.oplus.oplus-feature.xml"
+
+    {
+        echo ""
+        echo "# 解锁 iPhone 互联特征"
+        echo "mount -o ro,bind \$MODDIR/my_product/etc/extension/com.oplus.oplus-feature.xml /my_product/etc/extension/com.oplus.oplus-feature.xml"
+    } >> "$MODPATH/post-fs-data.sh"
+
+    # 拷贝并修改 XML 文件
+    mkdir -p "$(dirname "$target")"
+    cp -f "$origin" "$target"
+    sed -i '/<\/oplus-config>/i \	<oplus-feature name="oplus.software.radio.hfp_comm_shared_support"/>' "$target"
+
+    ui_print "modify $origin"
+    ui_print "iPhone 互联特征已开启！"
+else
+    ui_print "iPhone 互联特征已忽略！"
 fi
 
 ui_print ""
