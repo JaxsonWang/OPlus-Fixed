@@ -1,4 +1,4 @@
-#!/system/bin/sh
+#!/bin/sh
 
 stop vendor.soter
 sleep 1

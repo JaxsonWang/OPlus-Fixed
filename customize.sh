@@ -1,4 +1,4 @@
-#!/system/bin/sh
+#!/bin/sh
 
 PATH=/data/adb/ap/bin:/data/adb/ksu/bin:/data/adb/magisk:$PATH
 
@@ -26,12 +26,14 @@ REPLACE="
 # 但我这边没有做 magisk 模块兼容
 [ ! -f $MODPATH/skip_mount ] && touch $MODPATH/skip_mount
 
-for path in $REPLACE; do
-    {
-        echo ""
-        echo "# Remove $path"
-        echo "mount --bind \$MODDIR$path $path"
-    } >> "$MODPATH/post-fs-data.sh"
+echo "$REPLACE" | while read -r path; do
+    if [ -n "$path" ]; then
+        {
+            echo ""
+            echo "# Remove $path"
+            echo "mount --bind \$MODDIR$path $path"
+        } >> "$MODPATH/post-fs-data.sh"
+    fi
 done
 
 
@@ -46,10 +48,10 @@ chooseport() {
     while [ "$REMAINING_DELAY" -gt 0 ]; do
         timeout ${REMAINING_DELAY}s /system/bin/getevent -lqc 1 2>&1 > $TMPDIR/events &
         wait $! 2>/dev/null # 隐藏 "Terminated" 消息
-        if (`grep -q 'KEY_VOLUMEUP *DOWN' $TMPDIR/events`); then
+        if grep -q 'KEY_VOLUMEUP *DOWN' $TMPDIR/events; then
             ui_print "音量增加 (+) = 检测到 YES！"
             return 0 # 0 = true
-        elif (`grep -q 'KEY_VOLUMEDOWN *DOWN' $TMPDIR/events`); then
+        elif grep -q 'KEY_VOLUMEDOWN *DOWN' $TMPDIR/events; then
             ui_print "音量减少 (-) = 检测到 NO！"
             return 1 # 1 = false
         fi
