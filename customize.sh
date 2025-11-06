@@ -16,8 +16,7 @@ ui_print "Root Version: $MAGISK_VER_CODE"
 ui_print "MODPATH: $MODPATH"
 
 # Remove applications
-REPLACE="
-/system/product/app/Browser
+REMOVE="
 "
 
 chooseport() {
@@ -57,18 +56,6 @@ ui_print ""
 ui_print "*** 请使用音量按键选择 ***"
 ui_print "*** 音量上键 (+) = 是 ***"
 ui_print "*** 音量上键 (-) = 否 ***"
-
-ui_print ""
-ui_print "*** 是否安装 Android Auto 伪装模块 ***"
-ui_print ""
-if chooseport 20 "NO"; then
-    ui_print "Android Auto 伪装模块已添加安装！"
-else
-    rm -r $MODPATH/system/product/app/GoogleTTS
-    rm -r $MODPATH/system/product/app/Maps
-    rm -r $MODPATH/system/product/priv-app/Velvet
-    ui_print "Android Auto 伪装模块已忽略！"
-fi
 
 ui_print ""
 ui_print "*** 是否安装 Unlock CN GMS 模块 ***"
