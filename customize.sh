@@ -16,8 +16,24 @@ ui_print "Root Version: $MAGISK_VER_CODE"
 ui_print "MODPATH: $MODPATH"
 
 # Remove applications
-REMOVE="
+REPLACE="
+/system/product/app/Browser
 "
+
+# 创建文件 skip_mount 文件
+# 不能直接挂载，会造成环境泄露
+# 需要使用 mount --bind 挂载
+# 但我这边没有做 magisk 模块兼容
+[ ! -f $MODPATH/skip_mount ] && touch $MODPATH/skip_mount
+
+for path in $REPLACE; do
+    {
+        echo ""
+        echo "# Remove $path"
+        echo "mount --bind \$MODDIR$path $path"
+    } >> "$MODPATH/post-fs-data.sh"
+done
+
 
 chooseport() {
     [ -n "$1" ] && local DELAY=$1 || local DELAY=10
@@ -67,7 +83,7 @@ if chooseport 20 "NO"; then
     {
         echo ""
         echo "# Unlock CN GMS mount"
-        echo "mount -o ro,bind \$MODDIR/my_product/etc/permissions/oplus_google_cn_gms_features.xml /my_product/etc/permissions/oplus_google_cn_gms_features.xml"
+        echo "mount --bind \$MODDIR/my_product/etc/permissions/oplus_google_cn_gms_features.xml /my_product/etc/permissions/oplus_google_cn_gms_features.xml"
     } >> "$MODPATH/post-fs-data.sh"
 
     # 拷贝并修改 XML 文件
@@ -96,7 +112,7 @@ if chooseport 20 "NO"; then
     {
         echo ""
         echo "# 解锁 iPhone 互联特征"
-        echo "mount -o ro,bind \$MODDIR/my_product/etc/extension/com.oplus.oplus-feature.xml /my_product/etc/extension/com.oplus.oplus-feature.xml"
+        echo "mount --bind \$MODDIR/my_product/etc/extension/com.oplus.oplus-feature.xml /my_product/etc/extension/com.oplus.oplus-feature.xml"
     } >> "$MODPATH/post-fs-data.sh"
 
     # 拷贝并修改 XML 文件
