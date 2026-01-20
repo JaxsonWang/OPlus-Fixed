@@ -24,13 +24,5 @@ rm -f /data/local/tmp/shizuku/
 rm -f /data/local/tmp/shizuku_starter
 echo "清理 Shizuku 残留"
 
-. "$MODDIR/soter-fixed.sh"
-
 # 清除阻止 GMS 持续持有 WakeLock
 # settings put secure google_restric_info 0
-
-echo "执行结束"
-echo "(一秒后自动退出)"
-sleep 1
-echo "运行结束"
-exit
