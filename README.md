@@ -11,7 +11,7 @@ OPlus ColorOS Features Optimization Module.
 ### Build
 
 ```shell
-zip OPlus-Fixed.zip -9r * -x "LICENSE" "README.md" "*/.DS_Store" "demo.png"
+zip OPlus-Fixed.zip -9r * -x "LICENSE" "README.md" "*/.DS_Store" "demo.png" "AGENTS.md"
 ```
 
 ## Installation

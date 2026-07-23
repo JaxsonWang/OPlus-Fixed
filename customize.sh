@@ -15,25 +15,10 @@ fi
 ui_print "Root Version: $MAGISK_VER_CODE"
 ui_print "MODPATH: $MODPATH"
 
-# Remove or replace applications with explicit bind mounts.
+# Replace applications through the root manager's standard module mount.
 REPLACE="
 /system/product/app/Browser
 "
-
-# 创建 skip_mount 文件，禁止 root 管理器自动挂载整个模块目录。
-# 仅对 REPLACE 中声明的目录执行精确 bind mount，避免扩大挂载暴露范围。
-[ -f "$MODPATH/skip_mount" ] || touch "$MODPATH/skip_mount"
-
-echo "$REPLACE" | while read -r path; do
-    if [ -n "$path" ]; then
-        {
-            echo ""
-            echo "# Replace $path"
-            echo "mount --bind \"\$MODDIR$path\" \"$path\""
-        } >> "$MODPATH/post-fs-data.sh"
-    fi
-done
-
 
 chooseport() {
     [ -n "$1" ] && local DELAY=$1 || local DELAY=10
