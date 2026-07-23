@@ -15,23 +15,21 @@ fi
 ui_print "Root Version: $MAGISK_VER_CODE"
 ui_print "MODPATH: $MODPATH"
 
-# Remove applications
+# Remove or replace applications with explicit bind mounts.
 REPLACE="
 /system/product/app/Browser
 "
 
-# 创建文件 skip_mount 文件
-# 不能直接挂载，会造成环境泄露
-# 需要使用 mount --bind 挂载
-# 但我这边没有做 magisk 模块兼容
-[ ! -f $MODPATH/skip_mount ] && touch $MODPATH/skip_mount
+# 创建 skip_mount 文件，禁止 root 管理器自动挂载整个模块目录。
+# 仅对 REPLACE 中声明的目录执行精确 bind mount，避免扩大挂载暴露范围。
+[ -f "$MODPATH/skip_mount" ] || touch "$MODPATH/skip_mount"
 
 echo "$REPLACE" | while read -r path; do
     if [ -n "$path" ]; then
         {
             echo ""
-            echo "# Remove $path"
-            echo "mount --bind \$MODDIR$path $path"
+            echo "# Replace $path"
+            echo "mount --bind \"\$MODDIR$path\" \"$path\""
         } >> "$MODPATH/post-fs-data.sh"
     fi
 done
