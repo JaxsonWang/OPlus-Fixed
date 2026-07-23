@@ -99,33 +99,7 @@ if chooseport 20 "NO"; then
 else
     # sed -i '/\/my_product\/etc\/permissions\/oplus_google_cn_gms_features.xml/d' $MODPATH/post-fs-data.sh
     # sed -i '/\/my_product\/etc\/permissions\/oplus.feature.control_cn_gms.xml/d' $MODPATH/post-fs-data.sh
-    # sed -i '/google_restric_info/d' $MODPATH/action.sh
-    # sed -i '/google_restric_info/d' $MODPATH/service.sh
     ui_print "Unlock CN GMS 模块已忽略！"
-fi
-
-ui_print ""
-ui_print "*** 是否开启 iPhone 互联特征 ***"
-ui_print ""
-if chooseport 20 "NO"; then
-    origin=/my_product/etc/extension/com.oplus.oplus-feature.xml
-    target="$MODPATH/my_product/etc/extension/com.oplus.oplus-feature.xml"
-
-    {
-        echo ""
-        echo "# 解锁 iPhone 互联特征"
-        echo "mount --bind \$MODDIR/my_product/etc/extension/com.oplus.oplus-feature.xml /my_product/etc/extension/com.oplus.oplus-feature.xml"
-    } >> "$MODPATH/post-fs-data.sh"
-
-    # 拷贝并修改 XML 文件
-    mkdir -p "$(dirname "$target")"
-    cp -f "$origin" "$target"
-    sed -i '/<\/oplus-config>/i \	<oplus-feature name="oplus.software.radio.hfp_comm_shared_support"/>' "$target"
-
-    ui_print "modify $origin"
-    ui_print "iPhone 互联特征已开启！"
-else
-    ui_print "iPhone 互联特征已忽略！"
 fi
 
 ui_print ""
