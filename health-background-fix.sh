@@ -4,11 +4,13 @@ PATH=/data/adb/ap/bin:/data/adb/ksu/bin:/data/adb/magisk:$PATH
 set -eu
 umask 077
 
+MODDIR="${0%/*}"
 PACKAGE_NAME="com.mi.health"
 STATE_DIR="/data/adb/oplus_fixed/health-background"
 BASELINE="$STATE_DIR/baseline"
-LOG_FILE="$STATE_DIR/last-run.log"
+LOG_FILE="$MODDIR/health-background.log"
 BOOT_WAIT_SECONDS=180
+WATCH_INTERVAL_SECONDS=60
 MODE="${1:---apply}"
 
 log_line() {
@@ -159,12 +161,26 @@ show_status() {
     cmd appops get --user 0 "$PACKAGE_NAME" RUN_ANY_IN_BACKGROUND
 }
 
+watch_policy() {
+    while [ ! -e "$STATE_DIR/disabled" ]; do
+        /system/bin/sh "$0" --refresh || true
+        [ -e "$STATE_DIR/disabled" ] && break
+        sleep "$WATCH_INTERVAL_SECONDS"
+    done
+}
+
 case "$MODE" in
-    --apply|--boot|--restore|--status) ;;
-    *) printf '用法：%s [--apply|--boot|--restore|--status]\n' "$0" >&2; exit 2 ;;
+    --apply|--boot|--refresh|--restore|--status|--watch) ;;
+    *) printf '用法：%s [--apply|--boot|--refresh|--restore|--status|--watch]\n' "$0" >&2; exit 2 ;;
 esac
 [ "$(id -u)" = "0" ] || { printf '需要 root 权限。\n' >&2; exit 1; }
 mkdir -p "$STATE_DIR"
+
+if [ "$MODE" = "--watch" ]; then
+    watch_policy
+    exit 0
+fi
+
 if ! mkdir "$STATE_DIR/lock"; then
     printf '已有实例运行或上次异常退出留下锁：%s/lock\n' "$STATE_DIR" >&2
     exit 1
@@ -172,11 +188,12 @@ fi
 trap finish EXIT
 trap 'exit 130' INT
 trap 'exit 143' TERM
-: > "$LOG_FILE"
+: >> "$LOG_FILE"
 
 case "$MODE" in
     --status) show_status ;;
     --restore) restore_policy ;;
+    --refresh) apply_policy ;;
     --boot)
         if [ -e "$STATE_DIR/disabled" ]; then
             log_line "启动应用已停用，跳过。"
@@ -186,6 +203,11 @@ case "$MODE" in
             apply_policy
             sleep 10
             apply_policy
+            if [ ! -e "$STATE_DIR/disabled" ]; then
+                trap - EXIT
+                rmdir "$STATE_DIR/lock" || exit 1
+                exec /system/bin/sh "$0" --watch
+            fi
         fi
         ;;
     --apply)

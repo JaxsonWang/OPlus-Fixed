@@ -31,10 +31,10 @@ zip OPlus-Fixed.zip -9r * -x "LICENSE" "README.md" "*/.DS_Store" "demo.png" "AGE
 1. 开机后等待系统服务稳定，确认 `com.mi.health` 和 Oplus Athena 都已安装，并检查现有 `no_frozen` 格式可安全读取。
 2. 第一次成功应用前，将原始 `no_frozen` 值和 Doze 白名单状态保存到 `/data/adb/oplus_fixed/health-background/baseline`。
 3. 只把 `com.mi.health` 追加到 `settings --user 0` 的 secure `no_frozen` 列表，并通过 `cmd deviceidle whitelist +com.mi.health` 增加 Android Doze 豁免；已有条目不会重复写入。
-4. 每次写入后读取回执并校验，开机流程会在延迟后再执行一次，以应对 Athena 在启动后重新加载默认配置。
+4. 每次写入后读取回执并校验，开机流程会在延迟后再执行一次；之后后台每 60 秒重新校验并补回被 Athena 后续刷新掉的条目。
 5. 卸载时只移除本模块加入的条目，保留用户或其他模块后来加入的配置；如果安装前已经存在对应条目，则不删除。
 
-这套逻辑不关闭全局 freezer、O-Kill 或 LMKD，也不保证在系统内存紧张时进程绝对不会被回收。它主要针对 Athena 的冻结和 Android Doze 休眠；最终是否长期运行还取决于系统版本、电池策略和应用自身状态。状态会记录在 `/data/adb/oplus_fixed/health-background/last-run.log`。
+这套逻辑不关闭全局 freezer、O-Kill 或 LMKD，也不保证在系统内存紧张时进程绝对不会被回收。它主要针对 Athena 的冻结和 Android Doze 休眠；最终是否长期运行还取决于系统版本、电池策略和应用自身状态。状态会追加记录在当前模块目录的 `/data/adb/modules/oplus_fixed/health-background.log`。卸载回滚会创建停用标记，后台 watcher 检测到后退出。
 
 The script validates the package, Athena, the existing list format, and each write. A lock prevents overlapping runs. It runs twice after boot because Athena can finish loading its default configuration after `sys.boot_completed`.
 
@@ -55,7 +55,7 @@ The module includes `uninstall.sh`, which performs the same package-specific rol
 
 ## GKD startup compatibility
 
-The module does not hardcode a Java service class. It discovers the accessibility service from the installed `li.songe.gkd` package, preserves the existing accessibility service list, and restores it on uninstall only when the module added the GKD component. GKD's own `start.sh` remains the source of its grants and `ExposeService` startup.
+The module does not hardcode a Java service class. It discovers the accessibility service from the installed `li.songe.gkd` package, preserves the existing accessibility service list, and restores it on uninstall only when the module added the GKD component. GKD's own `start.sh` remains the source of its grants and `ExposeService` startup. Runtime status is written to `/data/adb/modules/oplus_fixed/gkd-start.log`, while the accessibility baseline stays under `/data/adb/oplus_fixed/gkd` for rollback.
 
 ## Support
 
