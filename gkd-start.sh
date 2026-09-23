@@ -7,7 +7,7 @@ umask 077
 MODDIR="${0%/*}"
 PACKAGE_NAME="li.songe.gkd"
 SCRIPT_PATH="/storage/emulated/0/Android/data/li.songe.gkd/files/sh/start.sh"
-STATE_DIR="/data/adb/oplus_fixed/gkd"
+STATE_DIR="$MODDIR/.state/gkd"
 BASELINE_FILE="$STATE_DIR/enabled_accessibility_services.before-module"
 ADDED_MARKER="$STATE_DIR/accessibility-added-by-module"
 LOG_FILE="$MODDIR/gkd-start.log"

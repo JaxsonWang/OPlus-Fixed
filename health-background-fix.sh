@@ -6,7 +6,7 @@ umask 077
 
 MODDIR="${0%/*}"
 PACKAGE_NAME="com.mi.health"
-STATE_DIR="/data/adb/oplus_fixed/health-background"
+STATE_DIR="$MODDIR/.state/health-background"
 BASELINE="$STATE_DIR/baseline"
 LOG_FILE="$MODDIR/health-background.log"
 BOOT_WAIT_SECONDS=180
