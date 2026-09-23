@@ -55,8 +55,27 @@ ui_print ""
 ui_print "+ 模块个性化配置"
 ui_print ""
 ui_print "*** 请使用音量按键选择 ***"
-ui_print "*** 音量上键 (+) = 是 ***"
-ui_print "*** 音量上键 (-) = 否 ***"
+ui_print "*** 音量上键 (+) = 安装 ***"
+ui_print "*** 音量下键 (-) = 忽略 ***"
+
+select_optional_feature() {
+    FEATURE_NAME=$1
+    FEATURE_MARKER=$2
+
+    ui_print ""
+    ui_print "*** 是否安装 ${FEATURE_NAME} ***"
+    ui_print "*** 请使用音量按键选择：安装或者忽略安装 ***"
+    if chooseport 20 "NO"; then
+        rm -f "$FEATURE_MARKER"
+        ui_print "${FEATURE_NAME}已选择安装！"
+    else
+        : > "$FEATURE_MARKER"
+        ui_print "${FEATURE_NAME}已忽略！"
+    fi
+}
+
+select_optional_feature "小米健康后台保活" "$MODPATH/health-background.disabled"
+select_optional_feature "GKD 启动兼容" "$MODPATH/gkd.disabled"
 
 ui_print ""
 ui_print "*** 是否安装 Unlock CN GMS 模块 ***"
