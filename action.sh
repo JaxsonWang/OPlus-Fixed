@@ -4,7 +4,7 @@ PATH=/data/adb/ap/bin:/data/adb/ksu/bin:/data/adb/magisk:$PATH
 MODDIR="${0%/*}"
 
 echo "=========================================="
-echo "OPlus-Fixed v$(grep versionCode "$MODDIR/module.prop" | sed 's/versionCode=//g')"
+echo "OPlus-Fixed $(sed -n 's/^version=//p' "$MODDIR/module.prop")"
 echo "开始按安装选项应用小米健康保活并启动 GKD..."
 echo "=========================================="
 echo ""

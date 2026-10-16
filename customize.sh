@@ -2,7 +2,7 @@
 
 PATH=/data/adb/ap/bin:/data/adb/ksu/bin:/data/adb/magisk:$PATH
 
-ui_print "Moduel Version: $(grep versionCode $MODPATH/module.prop | sed 's/versionCode=//g')"
+ui_print "Module Version: $(sed -n 's/^version=//p' "$MODPATH/module.prop")"
 ui_print "Android Version: $(getprop ro.build.version.release)"
 ui_print "API Version: $(getprop ro.product.cpu.abi)"
 ui_print "Software Version: $(getprop ro.build.display.id.show)"
@@ -76,6 +76,30 @@ select_optional_feature() {
 
 select_optional_feature "小米健康后台保活" "$MODPATH/health-background.disabled"
 select_optional_feature "GKD 启动兼容" "$MODPATH/gkd.disabled"
+
+ui_print ""
+ui_print "*** 是否安装原生 120Hz / 165Hz 切换 ***"
+ui_print "+ 重启后，在系统设置的“刷新率设定”中选择 120Hz 或极速高刷 165Hz。"
+ui_print "+ 扩展应用高刷支持，保留智能切换、60/90Hz 档及温控。"
+ui_print "+ 耗电和发热可能增加；应用自身锁帧及单独设置仍会影响实际帧率。"
+ui_print "*** 音量上键安装；音量下键或 20 秒超时忽略 ***"
+if chooseport 20 "NO"; then
+    if ! dumpsys display | grep -Eq 'fps=165([.]0+)?[,}]'; then
+        abort "+ [165Hz] 未检测到原生 165Hz 显示模式，停止安装。"
+    fi
+    chmod 755 "$MODPATH/refresh-rate-165.sh"
+    /system/bin/sh "$MODPATH/refresh-rate-165.sh" --prepare || abort "+ [165Hz] 配置生成失败，停止安装。"
+    # 交给 Root 管理器加载模块属性；不写 persist 属性的持久化存储。
+    printf '%s\n' \
+        'persist.performance.rapid.refresh_rate.level=165' \
+        'persist.performance.rapid.refresh_rate.is_perf_mode=true' \
+        >> "$MODPATH/system.prop" || abort "+ [165Hz] 无法保存原生菜单配置。"
+    : > "$MODPATH/refresh-rate-165.enabled" || abort "+ [165Hz] 无法保存安装选项。"
+    ui_print "+ [165Hz] 已选择安装，重启后生效。"
+else
+    rm -f "$MODPATH/refresh-rate-165.enabled" || abort "+ [165Hz] 无法保存跳过选项。"
+    ui_print "+ [165Hz] 已忽略，不修改刷新率策略。"
+fi
 
 ui_print ""
 ui_print "*** 是否安装 Unlock CN GMS 模块 ***"

@@ -6,3 +6,6 @@ MODDIR="${0%/*}"
 # 持久化设置不会随模块目录删除而消失，卸载前撤销本模块新增的豁免。
 /system/bin/sh "$MODDIR/health-background-fix.sh" --restore
 /system/bin/sh "$MODDIR/gkd-start.sh" --restore
+
+# 文件恢复后，系统进程中的配置缓存仍需重启才能恢复。
+/system/bin/sh "$MODDIR/refresh-rate-165.sh" --unmount
